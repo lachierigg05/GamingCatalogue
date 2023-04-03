@@ -1,0 +1,5 @@
+Game Database Specs
+
+1. Prints off each of the games in ones collection 
+2. Can add and remove a game from the archive. 
+3. The archive is a basic linked list, not an array. 
