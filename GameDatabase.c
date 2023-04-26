@@ -8,7 +8,9 @@ void print_menu();
 int main() {
     
     print_welcome_message(); 
-    print_menu(); 
+    print_menu();
+
+    printf("\nHello World!\n");
     
     return 0; 
 }
