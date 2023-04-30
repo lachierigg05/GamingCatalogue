@@ -4,18 +4,23 @@
 
 #define MAX_STRING_LENGTH 100
 
-typedef struct {
+struct Game {
     char title[MAX_STRING_LENGTH];
     int year; 
     char platform[MAX_STRING_LENGTH];
     float price;
-} Game; 
-    
+    struct Game *next; 
+};
+
+typedef struct Game Game; 
 
 void print_welcome_message(); 
-void print_menu(); 
+void print_menu();
+void print_collection(Game *head); 
 
 int main() {
+    
+    Game *head = NULL;
     
     print_welcome_message(); 
     
@@ -27,7 +32,7 @@ int main() {
         
         switch (selection) {
             case 1:
-                printf("Nice choice!\n");
+                print_collection(head); 
                 break; 
             case 2: 
                 break;
@@ -59,3 +64,23 @@ void print_menu() {
     printf("3. Remove Game from Catalogue.\n");
     printf("4. Quit\n"); 
 }
+void print_collection(Game *head) {
+    // If the list is empty, print the appropriate error message... 
+    if (head == NULL) {
+        printf("Your game collection is empty. Please add games to your collection.\n");
+        return; 
+    }
+
+    // If list is not empty... 
+    Game *current = head; 
+
+    while (current != NULL) {
+        int i = 1; // Game number counter
+        printf("\n%d. %s\n", i, current->title); 
+        printf("Release Date: %d\n", current->year); 
+        printf("Platform: %s\n", current->platform);
+        printf("Value: $%.2f\n\n", current->price); 
+        i++; 
+        current = current->next; 
+    }
+} 
