@@ -17,24 +17,27 @@ typedef struct Game Game;
 void print_welcome_message(); 
 void print_menu();
 void print_collection(Game *head); 
+Game *add_game(Game *head); 
 
 int main() {
     
     Game *head = NULL;
-    
+
     print_welcome_message(); 
     
     int i = 0; 
     while (i != 1) {
         print_menu();
         int selection;
-        scanf("%d", &selection); 
+        scanf("%d", &selection);
+        getchar(); // Clears the input buffer.
         
         switch (selection) {
             case 1:
                 print_collection(head); 
                 break; 
             case 2: 
+                head = add_game(head); 
                 break;
             case 3:
                 break;
@@ -46,7 +49,6 @@ int main() {
             default: 
                 printf("Please enter a valid command.\n"); 
         }
-        getchar(); // To clear the input buffer after a selection is made.
     }
 
     printf("\n");
@@ -57,6 +59,7 @@ int main() {
 void print_welcome_message() {
     printf("\nWelcome to Game Archiver (v1.0)\n\n"); 
 }
+
 void print_menu() {
     printf("Please select one of the following options: \n");
     printf("1. View Game Catalogue.\n");
@@ -64,6 +67,7 @@ void print_menu() {
     printf("3. Remove Game from Catalogue.\n");
     printf("4. Quit\n"); 
 }
+
 void print_collection(Game *head) {
     // If the list is empty, print the appropriate error message... 
     if (head == NULL) {
@@ -84,3 +88,49 @@ void print_collection(Game *head) {
         current = current->next; 
     }
 } 
+
+Game *add_game(Game *head) {
+        // Creates a new game node and adds it to the linked list.
+        
+        Game *new_game = malloc(sizeof(Game));
+        printf("Enter the title of the game: ");
+        scanf("%[^\n]", new_game->title);
+        while(getchar() != '\n'); // Clears the input buffer.
+        
+        printf("Enter the release year of the game: ");
+        scanf("%d", &new_game->year);
+        while(getchar() != '\n'); // Clears the input buffer.
+        
+        printf("Enter the platform of the game: ");
+        scanf("%[^\n]", new_game->platform);
+        while(getchar() != '\n'); // Clears the input buffer.
+
+        printf("Enter the price of the game: ");
+        scanf("%f", &new_game->price);
+        while(getchar() != '\n'); // Clears the input buffer.
+
+        new_game->next = NULL;
+        if (head == NULL) {
+            // If the list is empty, set the new node as the head.
+            head = new_game;
+            return head;
+        } else {
+            // If the list is not empty, set the new node as the next node.
+            Game *current = head;
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            current->next = new_game;
+            return head;
+        }
+} 
+        
+
+
+
+
+
+
+
+
+
