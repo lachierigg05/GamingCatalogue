@@ -14,10 +14,12 @@ struct Game {
 
 typedef struct Game Game; 
 
+// Function Prototypes
 void print_welcome_message(); 
 void print_menu();
 void print_collection(Game *head); 
-Game *add_game(Game *head); 
+Game *add_game(Game *head);
+Game *remove_game(Game *head); 
 
 int main() {
     
@@ -40,6 +42,7 @@ int main() {
                 head = add_game(head); 
                 break;
             case 3:
+                head = remove_game(head);
                 break;
             case 4:
                 printf("Thanks for using Game Archiver!\n"); 
@@ -125,6 +128,51 @@ Game *add_game(Game *head) {
         }
 } 
         
+Game *remove_game(Game *head) {
+    // Removes a game from the linked list.
+    char to_remove[MAX_STRING_LENGTH]; 
+    printf("Which game would you like to remove?\n");
+    scanf("%[^\n]", to_remove);
+    while(getchar() != '\n'); // Clears the input buffer. 
+    
+    if (head == NULL) {
+        // If the list is empty, print the appropriate error message...
+        printf("Your game collection is empty. Please add games to your collection.\n");
+        return head;
+    } else if (strcmp(head->title, to_remove) == 0) {
+        // If the list is not empty, and the head node is the game to remove...
+        Game *temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    } else if (strcmp(head->next->title, to_remove) == 0) {
+        // If the list is not empty, and the next node is the game to remove...
+        Game *temp = head->next;
+        head->next = head->next->next;
+        free(temp);
+        return head;
+    } else {
+        // If the list is not empty, and the game to remove is not the head or next node...
+        Game *current = head;
+        while (current->next != NULL) {
+            if (strcmp(current->next->title, to_remove) == 0) {
+                // If the next node is the game to remove...
+                Game *temp = current->next;
+                current->next = current->next->next;
+                free(temp);
+                return head;
+                break;
+            } else {
+                // If the next node is not the game to remove...
+                current = current->next;
+                break;
+            } 
+            return head;
+            break;
+        }
+    }
+    return head; 
+}
 
 
 
